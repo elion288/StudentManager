@@ -1,4 +1,6 @@
 ﻿
+using StudentManager;
+
 static void ShowMenu()
 {
     Console.WriteLine("======== STUDENT MANAGER ========");
@@ -13,6 +15,47 @@ static void ShowMenu()
     Console.WriteLine();
 }
 
+List<Student> students = new List<Student>();
+int nextId = 1;
+
+void AddStudents(List<Student> students)
+{
+    Console.Write("Enter student name: ");
+    string? name = Console.ReadLine();
+
+    if (string.IsNullOrWhiteSpace(name))
+    {
+        Console.WriteLine("Invalid name!");
+        return;
+    }
+
+
+    Console.Write("Enter student age: ");
+    int age;
+    bool type = int.TryParse(Console.ReadLine(), out age);
+    if (!type)
+    {
+        Console.WriteLine("Invalid input!");
+        return;
+    }
+
+    Console.Write("Enter student grade: ");
+    double grade;
+    bool checktype = double.TryParse(Console.ReadLine(), out grade);
+    if (!checktype)
+    {
+        Console.WriteLine("Invalid input!");
+        return;
+    }
+
+    Student student = new Student(nextId, name, age, grade);
+
+    students.Add(student);
+    nextId ++;
+
+    Console.WriteLine("Student added successfully!");
+    Console.WriteLine($"ID:{student.Id} | Name:{student.Name} | Age:{student.Age} | Grade:{student.Grade}");
+}
 
 while (true)
 {
@@ -29,7 +72,10 @@ while (true)
 
     switch (pickedNumber)
     {
-        case 1: Console.WriteLine($"You picked: {pickedNumber}.Add student"); break;
+        case 1: 
+            Console.WriteLine($"You picked: {pickedNumber}.Add student");
+            AddStudents(students);
+            break;
         case 2: Console.WriteLine($"You picked: {pickedNumber}.Show all students"); break;
         case 3: Console.WriteLine($"You picked: {pickedNumber}.Search student"); break;
         case 4: Console.WriteLine($"You picked: {pickedNumber}.Edit student"); break;
