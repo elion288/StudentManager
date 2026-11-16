@@ -54,6 +54,7 @@ void AddStudents(List<Student> students)
 
     Console.WriteLine("Student added successfully!");
     Console.WriteLine($"ID:{student.Id} | Name:{student.Name} | Age:{student.Age} | Grade:{student.Grade}");
+    Console.WriteLine();
 }
 
 static void ShowAllStudents(List<Student> students)
@@ -67,6 +68,35 @@ static void ShowAllStudents(List<Student> students)
     {
         Console.WriteLine($"ID:{student.Id} | Name:{student.Name} | Age:{student.Age} | Grade:{student.Grade}");
     }
+    Console.WriteLine();
+}
+
+static void SearchStudent(List<Student> students)
+{
+    if(students.Count == 0)
+    {
+        Console.WriteLine("No students found!");
+        return;
+    }
+
+    Console.Write("Enter student ID: ");
+    int idOfStudent;
+    bool typeOfInput = int.TryParse(Console.ReadLine(), out idOfStudent);
+    if (!typeOfInput)
+    {
+        Console.WriteLine("Invalid input");
+        return;
+    }
+
+    var foundStudent = students.FirstOrDefault(student => student.Id == idOfStudent);
+    if (foundStudent == null)
+    {
+        Console.WriteLine("Student not fund!");
+        return;
+    }
+    Console.WriteLine("Student found!");
+    Console.WriteLine($"ID:{foundStudent.Id} | Name:{foundStudent.Name}| Age:{foundStudent.Age} | Grade:{foundStudent.Grade}");
+    Console.WriteLine();
 }
 
 while (true)
@@ -92,7 +122,10 @@ while (true)
             Console.WriteLine($"You picked: {pickedNumber}.Show all students");
             ShowAllStudents(students);
             break;
-        case 3: Console.WriteLine($"You picked: {pickedNumber}.Search student"); break;
+        case 3: 
+            Console.WriteLine($"You picked: {pickedNumber}.Search student"); 
+            SearchStudent(students);
+            break;
         case 4: Console.WriteLine($"You picked: {pickedNumber}.Edit student"); break;
         case 5: Console.WriteLine($"You picked: {pickedNumber}.Remove student"); break;
         case 6: Console.WriteLine($"You picked: {pickedNumber}.Show best student"); break;
