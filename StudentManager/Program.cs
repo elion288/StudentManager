@@ -1,5 +1,4 @@
-﻿
-using StudentManager;
+﻿using StudentManager;
 
 static void ShowMenu()
 {
@@ -57,6 +56,19 @@ void AddStudents(List<Student> students)
     Console.WriteLine($"ID:{student.Id} | Name:{student.Name} | Age:{student.Age} | Grade:{student.Grade}");
 }
 
+static void ShowAllStudents(List<Student> students)
+{
+    if(students.Count == 0)
+    {
+        Console.WriteLine("No students found!");
+        return ;
+    }
+    foreach (Student student in students)
+    {
+        Console.WriteLine($"ID:{student.Id} | Name:{student.Name} | Age:{student.Age} | Grade:{student.Grade}");
+    }
+}
+
 while (true)
 {
     ShowMenu();
@@ -76,7 +88,10 @@ while (true)
             Console.WriteLine($"You picked: {pickedNumber}.Add student");
             AddStudents(students);
             break;
-        case 2: Console.WriteLine($"You picked: {pickedNumber}.Show all students"); break;
+        case 2: 
+            Console.WriteLine($"You picked: {pickedNumber}.Show all students");
+            ShowAllStudents(students);
+            break;
         case 3: Console.WriteLine($"You picked: {pickedNumber}.Search student"); break;
         case 4: Console.WriteLine($"You picked: {pickedNumber}.Edit student"); break;
         case 5: Console.WriteLine($"You picked: {pickedNumber}.Remove student"); break;
