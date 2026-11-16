@@ -91,7 +91,7 @@ static void SearchStudent(List<Student> students)
     var foundStudent = students.FirstOrDefault(student => student.Id == idOfStudent);
     if (foundStudent == null)
     {
-        Console.WriteLine("Student not fund!");
+        Console.WriteLine("Student not found!");
         return;
     }
     Console.WriteLine("Student found!");
@@ -161,6 +161,37 @@ static void EditStudent(List<Student> students)
     Console.WriteLine();
 }
 
+static void DeleteStudent(List<Student> students)
+{
+    if (students.Count == 0)
+    {
+        Console.WriteLine("No students found!");
+        return;
+    }
+
+    Console.Write("Delete student by ID: ");
+    int idOfStudent;
+    bool typeOfInput = int.TryParse(Console.ReadLine(), out idOfStudent);
+    if (!typeOfInput)
+    {
+        Console.WriteLine("Invalid input");
+        return;
+    }
+
+    var foundStudent = students.FirstOrDefault(student => student.Id == idOfStudent);
+    if (foundStudent == null)
+    {
+        Console.WriteLine("Student not found!");
+        return;
+    }
+
+    Console.WriteLine($"ID:{foundStudent.Id} | Name:{foundStudent.Name}| Age:{foundStudent.Age} | Grade:{foundStudent.Grade}");
+    students.Remove(foundStudent);
+    Console.WriteLine("Student deleted successfully!");
+
+    Console.WriteLine();
+}
+
 while (true)
 {
     ShowMenu();
@@ -192,7 +223,10 @@ while (true)
             Console.WriteLine($"You picked: {pickedNumber}.Edit student");
             EditStudent(students);
             break;
-        case 5: Console.WriteLine($"You picked: {pickedNumber}.Remove student"); break;
+        case 5: 
+            Console.WriteLine($"You picked: {pickedNumber}.Remove student"); 
+            DeleteStudent(students);
+            break;
         case 6: Console.WriteLine($"You picked: {pickedNumber}.Show best student"); break;
         case 7: Console.WriteLine($"You picked: {pickedNumber}.Show average grade"); break;
         case 8: Console.WriteLine($"You picked: {pickedNumber}.Exit"); return;
