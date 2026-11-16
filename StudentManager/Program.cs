@@ -99,6 +99,68 @@ static void SearchStudent(List<Student> students)
     Console.WriteLine();
 }
 
+static void EditStudent(List<Student> students)
+{
+    if(students.Count == 0)
+    {
+        Console.WriteLine("No students found!");
+        return;
+    }
+
+    Console.Write("Enter student ID: ");
+    int idOfStudent;
+    bool typeOfInput = int.TryParse(Console.ReadLine(), out idOfStudent);
+    if (!typeOfInput)
+    {
+        Console.WriteLine("Invalid input!");
+        return;
+    }
+
+    var foundStudent = students.FirstOrDefault(student => student.Id == idOfStudent);
+    if (foundStudent == null)
+    {
+        Console.WriteLine("No student found!");
+        return;
+    }
+
+
+    Console.Write("Enter new name: ");
+    string? name = Console.ReadLine();
+    if (string.IsNullOrWhiteSpace(name))
+    {
+        Console.WriteLine("Invalid name!");
+        return;
+    }
+    
+
+    Console.Write("Enter new age: ");
+    int age;
+    bool ageInput_type = int.TryParse(Console.ReadLine(), out age);
+    if (!ageInput_type)
+    {
+        Console.WriteLine("Invalid input!");
+        return;
+    }
+    
+
+    Console.Write("Enter new grade: ");
+    double grade;
+    bool gradeInput_type = double.TryParse(Console.ReadLine(), out grade);
+    if (!gradeInput_type)
+    {
+        Console.WriteLine("Invalid input!");
+        return;
+    }
+
+
+    foundStudent.Name = name;
+    foundStudent.Age = age;
+    foundStudent.Grade = grade;
+
+    Console.WriteLine("Student updated successfully!");
+    Console.WriteLine();
+}
+
 while (true)
 {
     ShowMenu();
@@ -126,7 +188,10 @@ while (true)
             Console.WriteLine($"You picked: {pickedNumber}.Search student"); 
             SearchStudent(students);
             break;
-        case 4: Console.WriteLine($"You picked: {pickedNumber}.Edit student"); break;
+        case 4: 
+            Console.WriteLine($"You picked: {pickedNumber}.Edit student");
+            EditStudent(students);
+            break;
         case 5: Console.WriteLine($"You picked: {pickedNumber}.Remove student"); break;
         case 6: Console.WriteLine($"You picked: {pickedNumber}.Show best student"); break;
         case 7: Console.WriteLine($"You picked: {pickedNumber}.Show average grade"); break;
