@@ -192,6 +192,24 @@ static void DeleteStudent(List<Student> students)
     Console.WriteLine();
 }
 
+static void ShowBestStudent(List<Student> students)
+{
+    if (students.Count == 0)
+    {
+        Console.WriteLine("No students found!");
+        return;
+    }
+
+    
+    var bestStudent = students.OrderBy(student => student.Grade) .FirstOrDefault();
+
+    
+    Console.Write("Best student: ");
+    Console.WriteLine($"ID:{bestStudent.Id} | Name:{bestStudent.Name} | Age:{bestStudent.Age} | Grade:{bestStudent.Grade}");
+
+    Console.WriteLine();
+}
+
 while (true)
 {
     ShowMenu();
@@ -227,7 +245,10 @@ while (true)
             Console.WriteLine($"You picked: {pickedNumber}.Remove student"); 
             DeleteStudent(students);
             break;
-        case 6: Console.WriteLine($"You picked: {pickedNumber}.Show best student"); break;
+        case 6: 
+            Console.WriteLine($"You picked: {pickedNumber}.Show best student");
+            ShowBestStudent(students);
+            break;
         case 7: Console.WriteLine($"You picked: {pickedNumber}.Show average grade"); break;
         case 8: Console.WriteLine($"You picked: {pickedNumber}.Exit"); return;
             default: Console.WriteLine("Invalid option!"); break;
