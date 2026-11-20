@@ -199,13 +199,32 @@ static void ShowBestStudent(List<Student> students)
         Console.WriteLine("No students found!");
         return;
     }
-
     
+
     var bestStudent = students.OrderBy(student => student.Grade) .FirstOrDefault();
 
+    if (bestStudent == null)
+    {
+        Console.WriteLine("No student found!");
+        return;
+    }
     
     Console.Write("Best student: ");
     Console.WriteLine($"ID:{bestStudent.Id} | Name:{bestStudent.Name} | Age:{bestStudent.Age} | Grade:{bestStudent.Grade}");
+
+    Console.WriteLine();
+}
+
+static void ShowAverageGrade(List<Student> students)
+{
+    if (students.Count == 0)
+    {
+        Console.WriteLine("No students found!");
+        return;
+    }
+
+    var average = students.Average(student => student.Grade);
+    Console.WriteLine($"Average grade: {average:F2}");
 
     Console.WriteLine();
 }
@@ -249,7 +268,10 @@ while (true)
             Console.WriteLine($"You picked: {pickedNumber}.Show best student");
             ShowBestStudent(students);
             break;
-        case 7: Console.WriteLine($"You picked: {pickedNumber}.Show average grade"); break;
+        case 7: 
+            Console.WriteLine($"You picked: {pickedNumber}.Show average grade"); 
+            ShowAverageGrade(students); 
+            break;
         case 8: Console.WriteLine($"You picked: {pickedNumber}.Exit"); return;
             default: Console.WriteLine("Invalid option!"); break;
     }
