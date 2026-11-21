@@ -251,9 +251,17 @@ static List<Student> LoadStudents()
         return new List<Student>();
     }
 
-    string json = File.ReadAllText("students.json");
+    try
+    {
+        string json = File.ReadAllText("students.json");
 
-    return JsonSerializer.Deserialize<List<Student>>(json) ?? new List<Student>();
+        return JsonSerializer.Deserialize<List<Student>>(json) ?? new List<Student>();
+    }
+    catch
+    {
+        Console.WriteLine("Could not load students!");
+    }
+    return new List<Student>();
 }
 
 while (true)
