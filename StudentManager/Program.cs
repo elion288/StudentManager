@@ -1,4 +1,5 @@
 ﻿using StudentManager;
+using System.Text.Json;
 
 static void ShowMenu()
 {
@@ -14,8 +15,8 @@ static void ShowMenu()
     Console.WriteLine();
 }
 
-List<Student> students = new List<Student>();
-int nextId = 1;
+List<Student> students = LoadStudents();
+int nextId = students.Count == 0 ? 1 : students.Max(student => student.Id) + 1;
 
 void AddStudents(List<Student> students)
 {
@@ -32,7 +33,7 @@ void AddStudents(List<Student> students)
     Console.Write("Enter student age: ");
     int age;
     bool type = int.TryParse(Console.ReadLine(), out age);
-    if (!type)
+    if (!type || age <= 0 || age > 120)
     {
         Console.WriteLine("Invalid input!");
         return;
@@ -41,9 +42,10 @@ void AddStudents(List<Student> students)
     Console.Write("Enter student grade: ");
     double grade;
     bool checktype = double.TryParse(Console.ReadLine(), out grade);
-    if (!checktype)
+    if (!checktype || grade < 1.0 || grade > 6.0)
     {
         Console.WriteLine("Invalid input!");
+        Console.WriteLine("Grade from 1.0 to 6.0");
         return;
     }
 
@@ -55,6 +57,7 @@ void AddStudents(List<Student> students)
     Console.WriteLine("Student added successfully!");
     Console.WriteLine($"ID:{student.Id} | Name:{student.Name} | Age:{student.Age} | Grade:{student.Grade}");
     Console.WriteLine();
+    SaveStudents(students);
 }
 
 static void ShowAllStudents(List<Student> students)
@@ -136,7 +139,7 @@ static void EditStudent(List<Student> students)
     Console.Write("Enter new age: ");
     int age;
     bool ageInput_type = int.TryParse(Console.ReadLine(), out age);
-    if (!ageInput_type)
+    if (!ageInput_type || age <= 0 || age > 120)
     {
         Console.WriteLine("Invalid input!");
         return;
@@ -146,9 +149,10 @@ static void EditStudent(List<Student> students)
     Console.Write("Enter new grade: ");
     double grade;
     bool gradeInput_type = double.TryParse(Console.ReadLine(), out grade);
-    if (!gradeInput_type)
+    if (!gradeInput_type || grade < 1.0 || grade > 6.0)
     {
         Console.WriteLine("Invalid input!");
+        Console.WriteLine("Grade from 1.0 to 6.0");
         return;
     }
 
@@ -159,6 +163,8 @@ static void EditStudent(List<Student> students)
 
     Console.WriteLine("Student updated successfully!");
     Console.WriteLine();
+
+    SaveStudents(students);
 }
 
 static void DeleteStudent(List<Student> students)
@@ -190,6 +196,8 @@ static void DeleteStudent(List<Student> students)
     Console.WriteLine("Student deleted successfully!");
 
     Console.WriteLine();
+
+    SaveStudents(students);
 }
 
 static void ShowBestStudent(List<Student> students)
@@ -224,9 +232,28 @@ static void ShowAverageGrade(List<Student> students)
     }
 
     var average = students.Average(student => student.Grade);
-    Console.WriteLine($"Average grade: {average:F2}");
+    Console.WriteLine($"Average grade: {average}");
 
     Console.WriteLine();
+}
+
+static void SaveStudents(List<Student> students)
+{
+    string json = JsonSerializer.Serialize(students);
+
+    File.WriteAllText("students.json", json);
+}
+
+static List<Student> LoadStudents()
+{
+    if (!File.Exists("students.json"))
+    {
+        return new List<Student>();
+    }
+
+    string json = File.ReadAllText("students.json");
+
+    return JsonSerializer.Deserialize<List<Student>>(json) ?? new List<Student>();
 }
 
 while (true)
