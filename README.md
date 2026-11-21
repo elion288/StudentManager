@@ -7,3 +7,7 @@ With this program, I can add students, search for them, edit their information a
 I used JSON to save the students and their data so they don't disappear when I close the program.
 
 I built this project to improve my C# skills and practice what I've learned.
+
+## Screenshot
+
+![Student Manager](student-manager.png)
